@@ -1,12 +1,19 @@
 # take-me-to-church-encoding
 
-Cheatsheet:
+Live multi-REPL thing here: https://dfreeman.github.io/take-me-to-church-encoding
+
+- <kbd>Shift</kbd>+<kbd>Enter</kbd> to add a fresh editor
+- <kbd>Backspace</kbd> in an empty editor to clear it
+
+### Cheat Sheet
 
 ```js
 // Identity
 let ID = tag`ID`
   (x => x)
+```
 
+```js
 // Booleans
 let If = (bool, yes, no) =>
   bool(yes, no)
@@ -25,9 +32,9 @@ let Or = (a, b) =>
 
 let Not = (a) =>
   a(False, True)
+```
 
-
-
+```js
 // Numbers
 let Zero = tag`Zero`
   ((f, zero) => zero)
@@ -42,9 +49,9 @@ let IsOdd = (n) => n(Not, False)
 
 let Plus = (x, y) => x(Succ, y)
 let Times = (x, y) => x(n => Plus(n, y), Zero)
+```
 
-
-
+```js
 // Pairs
 let Pair = (left, right) => tag`Pair(${left}, ${right})`
   (f => f(left, right))
@@ -54,9 +61,9 @@ let Left = (pair) =>
 
 let Right = (pair) =>
   pair((left, right) => right)
+```
 
-
-
+```js
 // Subtraction
 let Pred = (n) => Right(n(
   (p) => Pair(Succ(Left(p)), Left(p)),
@@ -64,9 +71,9 @@ let Pred = (n) => Right(n(
 ))
 
 let Minus = (x, y) => y(Pred, x)
+```
 
-
-
+```js
 // Lists
 let Nil = tag`Nil`
   ((f, nil) => nil)
