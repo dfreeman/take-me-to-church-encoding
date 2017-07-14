@@ -4,19 +4,18 @@ Cheatsheet:
 
 ```js
 // Identity
-let ID = tag`ID`(x => x)
-
-
+let ID = tag`ID`
+  (x => x)
 
 // Booleans
 let If = (bool, yes, no) =>
   bool(yes, no)
 
-let True = tag`True`(
-  (yes, no) => yes)
+let True = tag`True`
+  ((yes, no) => yes)
 
-let False = tag`False`(
-  (yes, no) => no)
+let False = tag`False`
+  ((yes, no) => no)
 
 let And = (a, b) =>
   a(b(True, False), False)
@@ -30,10 +29,10 @@ let Not = (a) =>
 
 
 // Numbers
-let Zero = tag`Zero`(
-  (f, zero) => zero)
-let Succ = (n) => tag`Succ(${n})`(
-  (f, zero) => f(n(f, zero)))
+let Zero = tag`Zero`
+  ((f, zero) => zero)
+let Succ = (n) => tag`Succ(${n})`
+  ((f, zero) => f(n(f, zero)))
 
 let One = Succ(Zero)
 let Two = Succ(One)
@@ -47,8 +46,8 @@ let Times = (x, y) => x(n => Plus(n, y), Zero)
 
 
 // Pairs
-let Pair = (left, right) => tag`Pair(${left}, ${right})`(
-  f => f(left, right))
+let Pair = (left, right) => tag`Pair(${left}, ${right})`
+  (f => f(left, right))
 
 let Left = (pair) =>
   pair((left, right) => left)
@@ -69,10 +68,10 @@ let Minus = (x, y) => y(Pred, x)
 
 
 // Lists
-let Nil = tag`Nil`(
-  (f, nil) => nil)
-let Cons = (item, list) => tag`${item}::${list}`(
-  (f, nil) => f(item, list(f, nil)));
+let Nil = tag`Nil`
+  ((f, nil) => nil)
+let Cons = (item, list) => tag`${item}::${list}`
+  ((f, nil) => f(item, list(f, nil)));
 
 let Map = (f, list) =>
   list((item, acc) => Cons(f(item), acc), Nil)
