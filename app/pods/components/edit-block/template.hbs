@@ -1,0 +1,27 @@
+<div local-class="edit-block" class={{class}}>
+  {{ember-ace
+    local-class='editor'
+    minLines=3
+    maxLines=20
+    value=value
+    highlightActiveLine=false
+    theme='ace/theme/tomorrow_night'
+    mode='ace/mode/javascript'
+    update=update
+    ready=(action configureEditor)
+  }}
+
+  <div local-class="result-container">
+    <div local-class="result-marker">▶</div>
+    {{ember-ace
+      local-class='result'
+      lines=1
+      value=result
+      highlightActiveLine=false
+      theme='ace/theme/tomorrow_night'
+      mode='ace/mode/javascript'
+      ready=(action configureResult)
+    }}
+    <div local-class="coverer"></div>
+  </div>
+</div>

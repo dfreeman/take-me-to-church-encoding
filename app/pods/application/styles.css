@@ -1,0 +1,17 @@
+.icon {
+  width: 128px;
+  margin: 10vh auto;
+  display: block;
+}
+
+.container {
+  margin: auto;
+  max-width: 800px;
+  padding: 2em 2em 300px;
+  display: flex;
+  flex-flow: column;
+}
+
+.block {
+  margin-bottom: 2em;
+}
