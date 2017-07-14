@@ -4,6 +4,7 @@
 module.exports = function(environment) {
   let ENV = {
     modulePrefix: 'take-me-to-church-encoding',
+    podModulePrefix: 'take-me-to-church-encoding/pods',
     environment,
     rootURL: '/',
     locationType: 'auto',
@@ -44,7 +45,8 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
+    ENV.locationType = 'hash';
+    ENV.rootURL = '/take-me-to-church-encoding';
   }
 
   return ENV;

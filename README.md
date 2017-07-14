@@ -1,50 +1,90 @@
 # take-me-to-church-encoding
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+Cheatsheet:
 
-## Prerequisites
+```js
+// Identity
+let ID = tag`ID`(x => x)
 
-You will need the following things properly installed on your computer.
 
-* [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/) (with NPM)
-* [Ember CLI](https://ember-cli.com/)
-* [PhantomJS](http://phantomjs.org/)
 
-## Installation
+// Booleans
+let If = (bool, yes, no) =>
+  bool(yes, no)
 
-* `git clone <repository-url>` this repository
-* `cd take-me-to-church-encoding`
-* `npm install`
+let True = tag`True`(
+  (yes, no) => yes)
 
-## Running / Development
+let False = tag`False`(
+  (yes, no) => no)
 
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
+let And = (a, b) =>
+  a(b(True, False), False)
 
-### Code Generators
+let Or = (a, b) =>
+  a(True, b(True, False))
 
-Make use of the many generators for code, try `ember help generate` for more details
+let Not = (a) =>
+  a(False, True)
 
-### Running Tests
 
-* `ember test`
-* `ember test --server`
 
-### Building
+// Numbers
+let Zero = tag`Zero`(
+  (f, zero) => zero)
+let Succ = (n) => tag`Succ(${n})`(
+  (f, zero) => f(n(f, zero)))
 
-* `ember build` (development)
-* `ember build --environment production` (production)
+let One = Succ(Zero)
+let Two = Succ(One)
 
-### Deploying
+let IsEven = (n) => n(Not, True)
+let IsOdd = (n) => n(Not, False)
 
-Specify what it takes to deploy your app.
+let Plus = (x, y) => x(Succ, y)
+let Times = (x, y) => x(n => Plus(n, y), Zero)
 
-## Further Reading / Useful Links
 
-* [ember.js](http://emberjs.com/)
-* [ember-cli](https://ember-cli.com/)
-* Development Browser Extensions
-  * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
-  * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
+
+// Pairs
+let Pair = (left, right) => tag`Pair(${left}, ${right})`(
+  f => f(left, right))
+
+let Left = (pair) =>
+  pair((left, right) => left)
+
+let Right = (pair) =>
+  pair((left, right) => right)
+
+
+
+// Subtraction
+let Pred = (n) => Right(n(
+  (p) => Pair(Succ(Left(p)), Left(p)),
+  Pair(Zero, Zero)
+))
+
+let Minus = (x, y) => y(Pred, x)
+
+
+
+// Lists
+let Nil = tag`Nil`(
+  (f, nil) => nil)
+let Cons = (item, list) => tag`${item}::${list}`(
+  (f, nil) => f(item, list(f, nil)));
+
+let Map = (f, list) =>
+  list((item, acc) => Cons(f(item), acc), Nil)
+let IsEmpty = (list) =>
+  list((item, acc) => False, True)
+let Length = (list) =>
+  list((item, acc) => Succ(acc), Zero)
+
+let Head = (list) =>
+  list((item, acc) => item, 'irrelevant')
+let Tail = (list) =>
+  Right(list(
+    (item, acc) => Pair(Cons(item, Left(acc)), Left(acc)),
+    Pair(Nil, Nil)))
+```

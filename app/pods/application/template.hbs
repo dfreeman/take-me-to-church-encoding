@@ -1,0 +1,14 @@
+<img src="church.png" local-class="icon" alt="Church">
+
+<div local-class="container">
+  {{#each blocks as |block index|}}
+    {{edit-block
+      local-class="block"
+      value=block.value
+      preamble=block.preamble
+      update=(action (mut block.value))
+      addBlock=(action addBlock index)
+      clearBlock=(action clearBlock index)
+    }}
+  {{/each}}
+</div>
